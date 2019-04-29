@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 const db = admin.firestore();
 const axios = require('axios')
-const { api_key } = 'b6f02a5596fd8689b535302be9b99a20-us20'
+const { api_key } = 'key-us20'
 
 const cors = require('cors')({
     origin: true,
@@ -34,8 +34,8 @@ return Promise.all();
 
 function subscribeUser (emailAddress, firstName, lastName) {
 
-  const mailchimpApiUrl = 'https://us20.api.mailchimp.com/3.0';
-  const listID = '9106632cb1';
+  const mailchimpApiUrl = 'https://usxx.api.mailchimp.com/3.0';
+  const listID = 'id';
 
   const options = {
         method: 'POST',
