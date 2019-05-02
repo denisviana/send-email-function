@@ -9,7 +9,7 @@ exports.onNewUserRegistered = functions.firestore
 .document('users/{userId}')
 .onCreate((snap, context) => {
 
-  const hiredList = 'idList1';
+  const hiredList = '9106632cb1';
   const hirerList = 'idList2';
 
     var user = snap.data();
@@ -25,12 +25,12 @@ exports.onNewUserRegistered = functions.firestore
     }else
         console.log('exiting...');
 
-return Promise.all();
+return Promise.all([]);
 });
 
 function subscribeUser(firstName,emailAddress, listID) {  
-  var MAILCHIMP_API_KEY = 'API_KEY'
-  var url = 'https://usxx.api.mailchimp.com/3.0/lists/' + listID + '/members'
+  var MAILCHIMP_API_KEY = 'b6f02a5596fd8689b535302be9b99a20-us20'
+  var url = 'https://us20.api.mailchimp.com/3.0/lists/' + listID + '/members'
   var method = 'POST'
   var headers = {
     'authorization': "Basic " + btoa('randomstring:' + MAILCHIMP_API_KEY),
@@ -50,12 +50,10 @@ function subscribeUser(firstName,emailAddress, listID) {
     body
   }).then(resp => {
     console.log('successful');
-    resp.json();
-    return Promise.all();
+    return resp.json();
   })
-  .then(resp => {
+  .catch(error => {
     console.log(resp)
-    return Promise.all();
   })
 }
 
