@@ -1,7 +1,12 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-var fetch = require('isomorphic-fetch')
+var fetch = require('isomorphic-fetch');
 var btoa = require('btoa');
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors({ origin: true }));
 
 admin.initializeApp();
 
@@ -27,6 +32,32 @@ exports.onNewUserRegistered = functions.firestore
 
 return Promise.all([]);
 });
+
+app.post('/',(req, res)=> {
+
+  var body = req.body;
+  var key = req.get('x-key');
+  console.log(req.body);
+  console.log(body.email);
+  if(key === 'xuLa2AvexeKCt6n^WtxYs2?PXS44S+$7wZJSw'){
+      return admin.auth().createUser({
+        email: body.email,
+        password : body.password
+      })
+      .then(function(userRecord){
+        return admin.auth().setCustomUserClaims(userRecord.uid,{admin:true}).then((result)=>{
+          return res.status(201).send("User created");
+        }).catch((error)=>{
+          return res.status(500).send("Failed: "+error);
+        });
+      }).catch(function(error){
+        return res.status(500).send("Failed: "+error);
+      });
+  }else
+    return res.status(401).send("Unauthorized");
+});
+
+exports.newUser = functions.https.onRequest(app);
 
 function subscribeUser(firstName,emailAddress, listID) {  
   var MAILCHIMP_API_KEY = 'API_KEY'
